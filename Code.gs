@@ -1,5 +1,5 @@
 const FIN={
-  VERSION:'2.1.0-DEMO',START:'START',COSTS:'KOSZTY_PRACOWNIKÓW',BUDGETS:'BUDŻETY_LOKALIZACJI',
+  VERSION:'2.3.0-REAL-WORLD',START:'START',COSTS:'KOSZTY_PRACOWNIKÓW',BUDGETS:'BUDŻETY_LOKALIZACJI',
   EXTRAS:'DODATKI_I_REGUŁY',FORECAST:'PROGNOZA',AUDIT:'AUDYT_FINANSOWY'
 };
 
@@ -34,11 +34,11 @@ function finStart_(){
 
 function finLoadDemo(){
   finInstall();const month=Utilities.formatDate(new Date(),'Europe/Warsaw','yyyy-MM'),costs=[];
-  for(let i=0;i<60;i++){const full=i<40;costs.push([`P${String(i+1).padStart(3,'0')}`,month,full?'UMOWA O PRACĘ':'CZĘŚĆ ETATU',full?1:0.5,28+(i%8),38+(i%9),full?450:180,full?16:8,'TAK',i%10===0?'Lider zmiany':'']);}
+  for(let i=0;i<76;i++){const full=!([27,26,25,46,45,44,64,63,62,71,70,69,75,74,73].includes(i));costs.push([`P${String(i+1).padStart(3,'0')}`,month,full?'UMOWA O PRACĘ':'CZĘŚĆ ETATU',full?1:0.5,30+(i%8),42+(i%9),full?450:180,full?16:8,'TAK',i===0||i===28||i===29||i===47||i===65||i===72?'Menadżer zespołu':'']);}
   finWrite_(FIN.COSTS,costs);
-  finWrite_(FIN.BUDGETS,[[month,'LOC-CENTRUM',85000,2200,85,8,'TAK','ksiegowosc@demo.pl'],[month,'LOC-OGRODY',79000,2050,85,8,'TAK','ksiegowosc@demo.pl']]);
+  finWrite_(FIN.BUDGETS,[[month,'KRUCZA',190000,5200,85,8,'TAK','ksiegowosc@demo.pl'],[month,'PAWILONY',45000,1200,85,8,'TAK','ksiegowosc@demo.pl']]);
   finWrite_(FIN.EXTRAS,[['WEEKEND','Dodatek weekendowy',1.25,0,'Sobota lub niedziela','TAK'],['POPOŁUDNIE','Dodatek popołudniowy',1.08,0,'Zmiana POPOŁUDNIE','TAK'],['NOC','Dodatek nocny',1.20,0,'Godziny 22:00–06:00','TAK'],['ŚWIĘTO','Dodatek świąteczny',2.00,0,'Dzień ustawowo wolny','TAK'],['STANDBY','Dyżur stand-by',1,0,'Płatne 2 godziny','TAK'],['NADGODZINY','Nadgodziny',1.50,0,'Ponad nominał','TAK']]);
-  finRecalculate();finAudit_('LOAD_DEMO','60 pracowników, 2 budżety');return {ok:true,month};
+  finRecalculate();finAudit_('LOAD_DEMO','76 pracowników, 2 budżety');return {ok:true,month};
 }
 
 function finWrite_(name,rows){const sh=SpreadsheetApp.getActive().getSheetByName(name);if(sh.getLastRow()>1)sh.getRange(2,1,sh.getLastRow()-1,sh.getLastColumn()).clearContent();if(rows.length)sh.getRange(2,1,rows.length,rows[0].length).setValues(rows);}
